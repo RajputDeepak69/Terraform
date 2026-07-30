@@ -1,0 +1,255 @@
+# -----------------------------------------------------------------------------
+# TERRAFORM CORE
+# -----------------------------------------------------------------------------
+# Local .terraform directories (provider plugins and modules)
+**/.terraform/*
+.terraform/
+
+# State files (CRITICAL: Never commit state files containing secrets)
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+*.tfstate.lock.info
+
+# Variable files (often contain secrets/passwords)
+*.tfvars
+*.tfvars.json
+*.auto.tfvars
+
+# Override files (local development overrides)
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Plan output files (can contain sensitive diff data)
+*.tfplan
+*.tfplan.json
+
+# CLI configuration files (may contain tokens/credentials)
+.terraformrc
+terraform.rc
+
+# Lock file (Optional: Commit .terraform.lock.hcl for reproducible builds, 
+# uncomment the line below if you prefer to ignore it)
+.terraform.lock.hcl
+
+# Terraform workspaces
+terraform.tfstate.d/
+
+# Crash logs
+crash.log
+crash.*.log
+
+# -----------------------------------------------------------------------------
+# DEVOPS & CLOUD PROVIDERS (AWS, AZURE, GCP)
+# -----------------------------------------------------------------------------
+# AWS Credentials & Config
+.aws/credentials
+.aws/config
+*.pem
+*.key
+*.crt
+
+# Azure Credentials
+.azure/
+*.azureauth
+service-principal.json
+*.publishsettings
+
+# GCP Credentials
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+!appsettings.json
+*gcloud-*.json
+*service-account*.json
+
+# Kubernetes Configs (often contain cluster tokens)
+kubeconfig
+kubeconfig.yaml
+kubeconfig.yml
+.kube/
+
+# Docker
+.DS_Store
+.docker/
+docker-compose.override.yml
+.env.docker
+
+# Ansible
+*.retry
+ansible.cfg.local
+vault_password
+.vault_pass.txt
+
+# Packer
+packer.log
+
+# -----------------------------------------------------------------------------
+# ENVIRONMENT & SECRETS
+# -----------------------------------------------------------------------------
+# Environment variables (CRITICAL)
+.env
+.env.local
+.env.*.local
+.env.dev
+.env.staging
+.env.production
+*.env
+
+# Secret managers / Vault tokens
+.vault-token
+.consul-token
+
+# -----------------------------------------------------------------------------
+# IDE & EDITORS
+# -----------------------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+*.sublime-project
+
+# -----------------------------------------------------------------------------
+# OPERATING SYSTEM
+# -----------------------------------------------------------------------------
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+
+# -----------------------------------------------------------------------------
+# LOGS & TEMPORARY FILES
+# -----------------------------------------------------------------------------
+*.log
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+*.tmp
+*.temp
+*.cache
+*.pid
+*.seed
+*.pid.lock
+
+# -----------------------------------------------------------------------------
+# TERRAGRUNT (If used)
+# -----------------------------------------------------------------------------
+.terragrunt-cache/
+.terragrunt/
+terragrunt.hcl.backup
+
+# -----------------------------------------------------------------------------
+# CI/CD & BUILD ARTIFACTS
+# -----------------------------------------------------------------------------
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Go
+bin/
+obj/
+vendor/
+
+# Java/Gradle/Maven
+build/
+target/
+*.jar
+*.war
+*.ear
+*.class
+.gradle/
+.mvn/
+
+# Ruby
+*.gem
+*.rbc
+.bundle/
+vendor/bundle/
+Gemfile.lock
+
+# Rust
+/target/
+**/*.rs.bk
+Cargo.lock
+
+# -----------------------------------------------------------------------------
+# DOCUMENTATION & GENERATED FILES
+# -----------------------------------------------------------------------------
+# Terraform docs (if generated locally)
+terraform-docs.yml
+.terraform-docs.yml
+docs/generated/
+
+# Graphviz output from 'terraform graph'
+*.dot
+
+# -----------------------------------------------------------------------------
+# EXCEPTIONS (Files to explicitly include)
+# -----------------------------------------------------------------------------
+# Keep lock files for reproducible builds (Uncomment if needed)
+# !.terraform.lock.hcl
+
+# Keep example variable files (Sanitized templates)
+!*.tfvars.example
+!example.tfvars
+!terraform.tfvars.example
+
+# Keep specific override files if team-shared (Uncomment if needed)
+# !shared_override.tf   

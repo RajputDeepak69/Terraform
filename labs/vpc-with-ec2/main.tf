@@ -1,23 +1,58 @@
-resource "aws_key_pair" "project_key" {
-  key_name   = "project"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 dummy@example.com"
+resource aws_vpc "my-vpc" {
+  cidr_block = var.cidr
 }
-
-resource "aws_vpc" "main" {
-  cidr_block = "10.0.0.0/16"
+resource aws_subnet "subnet1" {
+  vpc_id = aws_vpc.my-vpc.id
+  map_public_ip_on_launch = true
 }
-
-resource "aws_subnet" "main" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.1.0/24"
+resource aws_subnet "subnet2" {
+  vpc_id = aws_vpc.my-vpc.id
+  map_public_ip_on_launch = true
 }
-
-resource "aws_instance" "demo" {
-  ami           = "ami-12345678" 
-  instance_type = "t2.micro"
-  subnet_id     = aws_subnet.main.id 
-  key_name      = aws_key_pair.project_key.key_name 
+resource aws_internet_gateway "igw" {
+  vpc_id = aws_vpc.my-vpc.id
   tags = {
-    Name = "demo"
+    Name = "igw-for-project"
   }
-}   
+}
+resource aws_route_table "rt1" {
+  vpc_id = aws_vpc.my-vpc.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.igw.id
+  }
+  tags = {
+    Name = "Rout-Table-1"
+  }
+}
+resource aws_route_table "rt2" {
+  vpc_id = aws_vpc.my-vpc.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.igw.id
+  }
+}
+resource aws_route_table_association "sub1-association" {
+  route_table_id = aws_route_table.rt1.id
+  subnet_id = aws_subnet.subnet1.id
+}
+resource aws_route_table_association "sub2-association" {
+  route_table_id = aws_route_table.rt2.id
+  subnet_id = aws_subnet.subnet2.id
+}
+resource aws_security_group "sg" {
+  name = "project-sg"
+  vpc_id = aws_vpc.my-vpc.id
+  ingress {
+    from_port = 80
+    to_port = 80
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    from_port = 22
+    to_port = 22
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}

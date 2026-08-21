@@ -5,6 +5,8 @@
 **/.terraform/*
 .terraform/
 
+demo/
+
 # State files (CRITICAL: Never commit state files containing secrets)
 *.tfstate
 *.tfstate.*

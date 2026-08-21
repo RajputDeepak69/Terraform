@@ -11,6 +11,7 @@ terraform {
         region = "us-east-1"
         key = "deepak/terraform.tfstate"
         use_path_style = true 
+        dynamodb_table = "state-lock"
     }
 }
 provider "aws" {

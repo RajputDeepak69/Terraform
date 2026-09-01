@@ -1,6 +1,6 @@
 resource "aws_key_pair" "key-pair" {
   key_name = "project-key"
-  public_key = "~/.ssh/id_rsa.pub"
+  public_key = file("~/.ssh/id_rsa.pub")
 }
 
 resource "aws_vpc" "my-vpc" {
@@ -65,4 +65,6 @@ resource "aws_instance" "project-server" {
   subnet_id = aws_subnet.my-subnet.id
   key_name = aws_key_pair.key-pair.key_name
   vpc_security_group_ids = [aws_security_group.my-sg.id]
+
+ 
 }

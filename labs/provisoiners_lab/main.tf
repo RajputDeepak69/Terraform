@@ -60,11 +60,36 @@ resource "aws_security_group" "my-sg" {
 }  
 
 resource "aws_instance" "project-server" {
-  ami = ""
+  ami = "ami-0b6d9d3d33ba97d99"
   instance_type = "t3.micro"
   subnet_id = aws_subnet.my-subnet.id
   key_name = aws_key_pair.key-pair.key_name
   vpc_security_group_ids = [aws_security_group.my-sg.id]
 
- 
+  connection {
+    host = self.public_ip
+    private_key = file("~/.ssh/id_rsa")
+    type = "ssh"
+    port = "22"
+    user = "ubuntu"
+  }
+
+  provisioner "file" {
+    source = "app.py"
+    destination = "~/app.py"
+  }
+
+  provisioner "remote-exec" {
+    inline = [ 
+      "sudo apt update -y",
+      "sudo apt install -y python3-pip",
+      "sudo apt install -y python3-venv",
+      "python3 -m venv my-env",
+      "source my-enc/bin/activate",
+      "pip install flask",
+      "python app.py"
+     ]
+  }
+
+
 }

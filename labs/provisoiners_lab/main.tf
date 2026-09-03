@@ -9,6 +9,7 @@ resource "aws_vpc" "my-vpc" {
 
 resource "aws_subnet" "my-subnet" {
   vpc_id = aws_vpc.my-vpc.id
+  availability_zone = "us-east-1a"
   cidr_block = "10.0.0.0/24"
   map_public_ip_on_launch = true
 }
@@ -60,12 +61,15 @@ resource "aws_security_group" "my-sg" {
 }  
 
 resource "aws_instance" "project-server" {
-  ami = "ami-0b6d9d3d33ba97d99"
+  ami = var.ami-id
   instance_type = "t3.micro"
   subnet_id = aws_subnet.my-subnet.id
   key_name = aws_key_pair.key-pair.key_name
   vpc_security_group_ids = [aws_security_group.my-sg.id]
-
+  tags = {
+    Name = "web-server"
+    Environment = "business"
+  }
   connection {
     host = self.public_ip
     private_key = file("~/.ssh/id_rsa")
@@ -76,20 +80,16 @@ resource "aws_instance" "project-server" {
 
   provisioner "file" {
     source = "app.py"
-    destination = "~/app.py"
+    destination = "/home/ubuntu/app.py"
   }
 
   provisioner "remote-exec" {
-    inline = [ 
+    inline = [
       "sudo apt update -y",
-      "sudo apt install -y python3-pip",
-      "sudo apt install -y python3-venv",
-      "python3 -m venv my-env",
-      "source my-enc/bin/activate",
-      "pip install flask",
-      "python app.py"
-     ]
-  }
-
-
+      "sudo apt install -y python3-venv python3-pip",
+      "python3 -m venv myenv",
+      "myenv/bin/pip install flask psycopg2-binary",
+      "nohup myenv/bin/python app.py > home/ubuntu/flask.log 2>&1 &"
+  ]
+}    
 }

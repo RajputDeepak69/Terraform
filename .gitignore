@@ -32,10 +32,6 @@ override.tf.json
 .terraformrc
 terraform.rc
 
-# Lock file (Optional: Commit .terraform.lock.hcl for reproducible builds, 
-# uncomment the line below if you prefer to ignore it)
-.terraform.lock.hcl
-
 # Terraform workspaces
 terraform.tfstate.d/
 

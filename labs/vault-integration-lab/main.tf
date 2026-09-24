@@ -1,6 +1,6 @@
 data "vault_kv_secret_v2" "tag-name" {
-    mount = "secret/aws/ec2"
-    name = "aws"
+    mount = "secret"
+    name = "aws/ec2"
 }
 resource "aws_instance" "server" {
     ami = "ami-0f094b852a615ea36"
@@ -9,5 +9,4 @@ resource "aws_instance" "server" {
         Name = data.vault_kv_secret_v2.tag-name.data["tag"]
         env = data.vault_kv_secret_v2.tag-name.data["env"]
     }
-  
 }
